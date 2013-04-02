@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#bootstrap_dlg.title}</title>
+	
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+	
+
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script type="text/javascript" src="../../utils/validate.js"></script>
+	<script type="text/javascript" src="../../utils/editable_selects.js"></script>
+	<script type="text/javascript" src="js/bootstrap_dialog.js"></script>
+	
+	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+	<script src="/extension/owbootstrap/design/owbootstrap/javascript/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap_utils.js"></script>
+	
+	<link rel="stylesheet" href="/extension/owbootstrap/design/owbootstrap/stylesheets/bootstrap.css" />
+	<link rel="stylesheet" href="css/bootstrap_dialog.css" />
+</head>
+<body>
+
+
+<form onsubmit="BootstrapDialog.insert();return false;" action="#">
+
+	<!-- div class="tabs" role="presentation">
+		<ul>
+			<li id="general_tab" class="current" aria-controls="general_panel" ><span><a>{#bootstrap_dlg.general_tab}</a></span></li>
+			<li id="popup_tab" aria-controls="popup_panel" ><span><a>{#advlink_dlg.popup_tab}</a></span></li>
+		</ul>
+	</div -->
+	
+	
+	<div class="panel_wrapper">
+		<div id="general_panel" class="panel current">
+
+		    
+		    <ul class="nav nav-tabs" id="myTab">
+				<li class="active"><a href="#gridPanel" data-toggle="tab">Grille</a></li>
+				<!-- li><a href="#tabPanel" data-toggle="tab">Onglets</a></li-->
+			</ul>
+
+		    <div class="tab-content">
+		    
+			    <div class="tab-pane active small" id="gridPanel">
+					<p><br>{#bootstrap_dlg.grid_intro}</p>
+
+	    
+					<div class="text-center">
+						<div class="btn-toolbar">
+						    <div id="blockList" class="btn-group">
+						    	<div class="btn" data-bsid="span1">1</div>
+						    	<div class="btn" data-bsid="span2">2</div>
+						    	<div class="btn" data-bsid="span3">3</div>
+						    	<div class="btn" data-bsid="span4">4</div>
+						    	<div class="btn" data-bsid="span5">5</div>
+						    	<div class="btn" data-bsid="span6">6</div>
+						    	<div class="btn" data-bsid="span7">7</div>
+						    	<div class="btn" data-bsid="span8">8</div>
+						    	<div class="btn" data-bsid="span9">9</div>
+						    	<div class="btn" data-bsid="span10">10</div>
+						    	<div class="btn" data-bsid="span11">11</div>
+						    	<div class="btn" data-bsid="span12">12</div>
+						    </div>
+						   	<div class="btn-group" data-toggle="buttons-radio">
+							    <button type="button" class="btn btn-mini" onclick="initRoot( 'gridfluid' );" data-placement="top" data-toggle="tooltip" data-original-title="S'adapte au contenu<br>(conseillé)" data-rootbsid="gridfluid">Fluide</button>
+							    <button type="button" class="btn btn-mini" onclick="initRoot( 'grid' );" data-placement="top" data-toggle="tooltip" data-original-title="Prend toute la largeur<br>de la page" data-rootbsid="grid">Fixe</button>
+						    </div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- div class="tab-pane" id="tabPanel">
+					<p><br>{#bootstrap_dlg.grid_intro}</p>
+					
+					<div class="text-center">
+				
+					</div-->
+				</div>
+				
+			</div>
+			
+			<!-- Edit area -->
+			<div id="rteBootstrap">
+
+			</div>
+
+
+		</div>
+	</div>
+	<!-- input id="bootstrapCols" name="bootstrapCols" type="hidden" class="text" /-->
+
+	<div class="mceActionPanel">
+		<input type="button" id="insert" name="insert" value="{#insert}" onclick="BootstrapDialog.insert();" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+	</div>
+	
+</form>
+
+</body>
+</html>

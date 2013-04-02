@@ -1,0 +1,1 @@
+{ezcss_load( array( ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ) )}

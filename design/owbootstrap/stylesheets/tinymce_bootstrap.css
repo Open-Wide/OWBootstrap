@@ -1,0 +1,36 @@
+
+.rteBootstrap {
+	border: 1px dashed #888888;
+    margin: 10px;
+    padding: 2px 10px;
+}
+.container,
+.row-fluid,
+[class*="span"] {
+	outline: 1px solid #CCC;
+}
+
+.container,
+.row,
+.row-fluid {
+	background: #F5F5F5;
+}
+.container {
+	margin: 10px;
+	margin: 10px 0;
+    padding: 5px 5px 5px 30px;
+}
+
+.row-fluid {
+    margin: 5px 0;
+    padding: 5px 0;
+}
+
+.row [class*="span"] {
+	margin-bottom: 10px;
+}
+
+#tinymce [class*="span"] {
+	background: #fff;
+	min-height: 22px;
+}
