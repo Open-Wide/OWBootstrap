@@ -15,6 +15,9 @@ EditorCSSFileList[]=bootstrap.css
 EditorCSSFileList[]=tinymce_bootstrap.css
 EditorCSSFileList[]=bootstrap-responsive.css
 
+CSSFileList[]=bootstrap.css
+CSSFileList[]=bootstrap-responsive.css
+
 [JavaScriptSettings]
 JavaScriptList[]=ezjsc::jquery
 FooterJavaScriptList[]=bootstrap.js
