@@ -8,8 +8,6 @@ class OWBootStrapOperators
     function OWBootStrapOperators()
     {
         $this->Operators = array( 
-        							'classByGroups',
-        							'get_ini_classes',
         							'strtoid',
         							'server_variable'
         );
