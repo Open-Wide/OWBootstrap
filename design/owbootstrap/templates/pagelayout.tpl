@@ -25,7 +25,7 @@
 	$pagedata.extra_menu_subitems
 *}
 {def $pagedata        = ezpagedata( hash( 
-									'show_path', false(),
+									'show_path', true(),
 									'top_menu', true(),
 									'left_menu', false(),
 									'extra_menu', false()
