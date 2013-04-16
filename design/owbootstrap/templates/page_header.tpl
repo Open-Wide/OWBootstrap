@@ -1,5 +1,5 @@
 <header>
-    <div class="container">
+    <div class="row-fluid">
         {*
         <div class="navbar extra-navi">
             <div class="nav-collapse row">
@@ -9,10 +9,10 @@
             </div>
         </div>
         *}
-        <div class="row">
-            {include uri='design:page_header_logo.tpl'}
 
-            {*include uri='design:page_header_searchbox.tpl'*}
-        </div>
+        {include uri='design:page_header_logo.tpl'}
+
+        {*include uri='design:page_header_searchbox.tpl'*}
+
     </div>
 </header>

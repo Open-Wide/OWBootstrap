@@ -86,8 +86,7 @@
     <!-- Toolbar area: END -->
 
     <!-- Columns area: START -->
-    <div class="container">
-        <div class="row">
+    <div class="row-fluid">
             <!-- Side menu area: START -->
             {if $pagedata.left_menu}
                 {include uri='design:page_leftmenu.tpl'}
@@ -105,7 +104,6 @@
                 {include uri='design:page_extramenu.tpl'}
             {/if}
             <!-- Extra area: END -->
-        </div>
     </div>
     <!-- Columns area: END -->
 
@@ -113,6 +111,7 @@
     {*include uri='design:page_footer.tpl'*}
     <!-- Footer area: END -->
 
+<!--DEBUG_REPORT-->
 </div>
 <!-- Complete page area: END -->
 
@@ -123,6 +122,6 @@
 {/cache-block}
 
 {* This comment will be replaced with actual debug report (if debug is on). *}
-<!--DEBUG_REPORT-->
+
 </body>
 </html>
