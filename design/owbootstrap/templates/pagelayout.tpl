@@ -109,7 +109,7 @@
     <!-- Columns area: END -->
 
     <!-- Footer area: START -->
-    {*include uri='design:page_footer.tpl'*}
+    {include uri='design:page_footer.tpl'}
     <!-- Footer area: END -->
 
 <!--DEBUG_REPORT-->
