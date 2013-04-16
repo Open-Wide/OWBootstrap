@@ -25,10 +25,11 @@
 	$pagedata.extra_menu_subitems
 *}
 {def $pagedata        = ezpagedata( hash( 
-									'show_path', true(),
-									'top_menu', true(),
-									'left_menu', false(),
-									'extra_menu', false()
+									'show_path', ezini('Pagelayout', 'show_path', 'design.ini' )|eq('true'),
+									'top_menu', ezini('Pagelayout', 'top_menu', 'design.ini' )|eq('true'),
+									'left_menu', ezini('Pagelayout', 'left_menu', 'design.ini' )|eq('true'),
+									'extra_menu', ezini('Pagelayout', 'extra_menu', 'design.ini' )|eq('true'),
+									'toto', true()
 								  ) )
      $inner_column_size = $pagedata.inner_column_size
      $outer_column_size = $pagedata.outer_column_size}
@@ -50,7 +51,7 @@
 
 {include uri='design:parts/front_back.tpl' mode='public'}
 
-<div id="page" class="{$pagestyle}">
+<div id="page">
 
     {if and( is_set( $pagedata.persistent_variable.extra_template_list ),
              $pagedata.persistent_variable.extra_template_list|count() )}

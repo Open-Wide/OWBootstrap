@@ -5,6 +5,13 @@
 [ExtensionSettings]
 DesignExtensions[]=owbootstrap
 
+
+[Pagelayout]
+show_path=true
+top_menu=true
+left_menu=false
+extra_menu=false
+
 [StylesheetSettings]
 # A list of stylesheets to use for the editor content.
 # Enable the code button in ezoe.ini to be able to see the
