@@ -49,8 +49,10 @@
 	    			{/if}
 	    		{/foreach}
 	    	</div>
+	    	{if gt($params.items|count, 1)}
 		    <a class="left carousel-control" href="#myCarousel{$current_id}" data-slide="prev">{first_set($params.prev_label, '&lsaquo;')}</a>
 		    <a class="right carousel-control" href="#myCarousel{$current_id}" data-slide="next">{first_set($params.next_label, '&rsaquo;')}</a>
+		    {/if}
 		</div>
 	<!-- End Carousel -->
 	{undef $current_id}
