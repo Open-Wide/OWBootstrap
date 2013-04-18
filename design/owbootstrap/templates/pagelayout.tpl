@@ -3,115 +3,131 @@
 <!--[if IE 9 ]><html class="ie ie9" lang="{$site.http_equiv.Content-language|wash}"><![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--><html lang="{$site.http_equiv.Content-language|wash}"><!--<![endif]-->
 <head>
-{def $basket_is_empty   = cond( $current_user.is_logged_in, fetch( shop, basket ).is_empty, 1 )
-     $user_hash         = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )
-	 $root = fetch( 'content', 'node', hash( 'node_id', ezini('NodeSettings', 'RootNode', 'content.ini') ) )}
-
-{*include uri='design:page_head_displaystyles.tpl'*}
+{def $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )
+	 $cache_uri = $module_result.uri|explode('/(')[0]|explode('#')[0]
+	 $cache_current_node_id = first_set( $module_result.node_id, ezini('NodeSettings', 'RootNode', 'content.ini') )}
 
 {if is_set( $extra_cache_key )|not}
     {def $extra_cache_key = ''}
 {/if}
 
 {*
-	$pagedata.canonical_url
-	$pagedata.show_path
-	$pagedata.website_toolbar
-	$pagedata.top_menu
-	$pagedata.left_menu
-	$pagedata.extra_menu
-	$pagedata.extra_menu_node_id
-	$pagedata.extra_menu_class_list
-	$pagedata.extra_menu_subitems
+	PLEASE SEE design.ini.append.php for available variables
+	All this variables are overridable in full views, with a simple ezpagedata_set call.
+		Examples :
+			{ezpagedata_set('left_col_tpl', false())}
+				or
+			{ezpagedata_set('left_col_tpl', 'cols/left_home.tpl')}
 *}
-{def $pagedata        = ezpagedata( hash( 
-									'show_path', ezini('Pagelayout', 'show_path', 'design.ini' )|eq('true'),
-									'top_menu', ezini('Pagelayout', 'top_menu', 'design.ini' )|eq('true'),
-									'left_menu', ezini('Pagelayout', 'left_menu', 'design.ini' )|eq('true'),
-									'extra_menu', ezini('Pagelayout', 'extra_menu', 'design.ini' )|eq('true'),
-									'toto', true()
-								  ) )
-     $inner_column_size = $pagedata.inner_column_size
-     $outer_column_size = $pagedata.outer_column_size}
+{def $options = array()
+	 $options_list = array(
+	 	'top_path_tpl',
+	 	'header_tpl',
+	 	'top_menu_tpl',
+	 	'left_col_tpl',
+	 	'left_col_width',
+	 	'center_col_tpl',
+	 	'center_col_width',
+	 	'right_col_tpl',
+	 	'right_col_width',
+	 	'footer_tpl'
+	 )
+}
+{foreach $options_list as $key}
+	{set $options = $options|merge( hash( $key, first_set( $pagedata.persistent_variable.$key, ezini('Pagelayout', $key, 'design.ini' ) ) ) )}
+{/foreach}
 
-{cache-block keys=array( $module_result.uri, $basket_is_empty, $current_user.contentobject_id, $extra_cache_key )}
-{def $pagestyle        = $pagedata.css_classes
+{def $pagedata = ezpagedata( )
+	 $pagestyle        = $pagedata.css_classes
      $locales          = fetch( 'content', 'translation_list' )
-     $current_node_id  = $pagedata.node_id}
+     $view_parameters = cond(is_set($module_result.view_parameters),$module_result.view_parameters,array())}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{include uri='design:page_head.tpl'}
-{include uri='design:page_head_style.tpl'}
-{include uri='design:page_head_script.tpl'}
+	{include uri='design:page_head.tpl'}
+	{include uri='design:page_head_style.tpl'}
+	{include uri='design:page_head_script.tpl'}
 
 </head>
 <body>
 <!-- Complete page area: START -->
 
-{include uri='design:parts/front_back.tpl' mode='public'}
-
 <div id="page">
-
     {if and( is_set( $pagedata.persistent_variable.extra_template_list ),
              $pagedata.persistent_variable.extra_template_list|count() )}
     {foreach $pagedata.persistent_variable.extra_template_list as $extra_template}
-        {include uri=concat('design:extra/', $extra_template)}
+        {include uri=concat('design:extra/', $extra_template)
+        		 view_parameters=$view_parameters}
     {/foreach}
     {/if}
-
-    <!-- Header area: START -->
-    {include uri='design:page_header.tpl'}
+	
+    {if first_set($options['header_tpl'])}
+	<!-- Header area: START -->
+    	{include uri=concat('design:',$options['header_tpl'])
+    			 view_parameters=$view_parameters}
     <!-- Header area: END -->
-
-    {cache-block keys=array( $module_result.uri, $user_hash, $extra_cache_key )}
-
-    <div class="navbar main-navi">
-        <!-- Top menu area: START -->
-        {if $pagedata.top_menu}
-            {include uri='design:page_topmenu.tpl'}
-        {/if}
-        <!-- Top menu area: END -->
-
-        <!-- Path area: START -->
-        {if $pagedata.show_path}
-            {include uri='design:page_toppath.tpl'}
-        {/if}
-        <!-- Path area: END -->
-    </div>
-
-    <!-- Toolbar area: START -->
-    {if and( $pagedata.website_toolbar, $pagedata.is_edit|not)}
-        {include uri='design:page_toolbar.tpl'}
     {/if}
+
+    {if first_set($options['top_menu_tpl'])}
+    	<!-- Top menu area: START -->
+	        {include uri=concat('design:',$options['top_menu_tpl'])
+	        		 view_parameters=$view_parameters}
+	    <!-- Top menu area: END -->
+    {/if}
+	{cache-block keys=array($cache_uri)}
+	    {if $options['top_path_tpl'])}
+	    <!-- Path area: START -->
+	        {include uri=concat('design:',$options['top_path_tpl'])
+	        		 view_parameters=$view_parameters}
+	    <!-- Path area: END -->
+	    {/if}
+    {/cache-block}
+
+    {if and( $pagedata.website_toolbar, $pagedata.is_edit|not)}
+    <!-- Toolbar area: START -->
+        {*include uri='design:page_toolbar.tpl'*}
     <!-- Toolbar area: END -->
+    {/if}
 
     <!-- Columns area: START -->
-    <div class="row-fluid">
-            <!-- Side menu area: START -->
-            {if $pagedata.left_menu}
-                {include uri='design:page_leftmenu.tpl'}
-            {/if}
-            <!-- Side menu area: END -->
-    {/cache-block}
-    {/cache-block}
-            <!-- Main area: START -->
-            {include uri='design:page_mainarea.tpl'}
-            <!-- Main area: END -->
-            {cache-block keys=array( $module_result.uri, $user_hash, $access_type.name, $extra_cache_key )}
+    <div class="row-fluid cols">
+    
+        {if first_set($options['left_col_tpl'])}
+        <!-- Left area: START -->
+	        {include uri=concat('design:',$options['left_col_tpl'])
+	        		 view_parameters=$view_parameters
+	        		 width=$options['left_col_width']}
+        <!-- Left area: END -->
+        {/if}
+        
+        {if first_set($options['center_col_tpl'])}
+        <!-- Center area: START -->
+	        {include uri=concat('design:',$options['center_col_tpl'])
+	        		 view_parameters=$view_parameters
+	        		 width=$options['center_col_width']}
+        <!-- Center area: END -->
+        {/if}
 
-            <!-- Extra area: START -->
-            {if $pagedata.extra_menu}
-                {include uri='design:page_extramenu.tpl'}
-            {/if}
-            <!-- Extra area: END -->
+		
+        {if first_set($options['right_col_tpl'])}
+    	<!-- Right area: START -->
+        	{include uri=concat('design:',$options['right_col_tpl'])
+        			 view_parameters=$view_parameters
+        			 width=$options['right_col_width']}
+        <!-- Right area: END -->
+        {/if}
+            
     </div>
     <!-- Columns area: END -->
-
-    <!-- Footer area: START -->
-    {include uri='design:page_footer.tpl'}
+    
+    {if first_set($options['footer_tpl'])}
+	<!-- Footer area: START -->
+    	{include uri=concat('design:',$options['footer_tpl'])
+    			 view_parameters=$view_parameters}
     <!-- Footer area: END -->
-
+    {/if}
+    
+{* This comment will be replaced with actual debug report (if debug is on). *}
 <!--DEBUG_REPORT-->
 </div>
 <!-- Complete page area: END -->
@@ -119,10 +135,6 @@
 <!-- Footer script area: START -->
 {include uri='design:page_footer_script.tpl'}
 <!-- Footer script area: END -->
-
-{/cache-block}
-
-{* This comment will be replaced with actual debug report (if debug is on). *}
 
 </body>
 </html>

@@ -1,16 +1,20 @@
 <?php /* #?ini charset="utf-8"? */
 
-
 /*
 [ExtensionSettings]
 DesignExtensions[]=owbootstrap
 
-
 [Pagelayout]
-show_path=true
-top_menu=true
-left_menu=false
-extra_menu=false
+top_path_tpl=page_toppath.tpl
+header_tpl=page_header.tpl
+top_menu_tpl=menu/double_top.tpl
+left_col_tpl=cols/left.tpl
+left_col_width=3
+center_col_tpl=cols/center.tpl
+center_col_width=7
+right_col_tpl=cols/right.tpl
+right_col_width=2
+footer_tpl=page_footer.tpl
 
 [StylesheetSettings]
 # A list of stylesheets to use for the editor content.
