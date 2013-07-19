@@ -16,9 +16,11 @@ EditorCSSFileList[]=bootstrap-responsive.css
 
 CSSFileList[]=bootstrap.css
 CSSFileList[]=bootstrap-responsive.css
+CSSFileList[]=owbootstrap.css
 
 [JavaScriptSettings]
 JavaScriptList[]=ezjsc::jquery
+FooterJavaScriptList[]=jquery.cycle.all.js
 FooterJavaScriptList[]=bootstrap.js
 
 */ ?>
