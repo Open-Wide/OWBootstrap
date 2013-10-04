@@ -97,8 +97,8 @@
 	        			
 	        			ed.windowManager.open({
                             file : url + '/bootstrap_dialog.htm',
-                            width : 580 + parseInt(ed.getLang('bootstrap.delta_width', 0)),
-                            height : 380 + parseInt(ed.getLang('bootstrap.delta_height', 0)),
+                            width : 780 + parseInt(ed.getLang('bootstrap.delta_width', 0)),
+                            height : 430 + parseInt(ed.getLang('bootstrap.delta_height', 0)),
                             inline : 1
 	                    }, {
 	                            plugin_url : url, // Plugin absolute URL
