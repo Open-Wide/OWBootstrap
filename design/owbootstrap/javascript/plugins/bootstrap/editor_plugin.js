@@ -22,72 +22,39 @@
                  * @param {tinymce.Editor} ed Editor instance that the plugin is initialized in.
                  * @param {string} url Absolute URL to where the plugin is located.
                  */
-                /*init : function(ed, url) {
-                        // Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceBootstrap');
-	                	ed.onPreInit.add(function() {
-		                        // Allow video elements
-		                        ed.schema.addValidElements('bootstrap[*]');
-		
-		                });
-                	
-                		ed.addCommand('mceBootstrap', function() {
-                			console.dir(ed.selection.getNode());
-                			var parent = ed.dom.getParent(ed.selection.getNode());
-                			console.log(parent);
-                			if (parent) {
-	                		    tinyMCE.execCommand('mceRemoveNode', false, parent);
-	                		}
-
-	                		ed.selection.setNode(ed.dom.create('div', {title: 'bootstrap', 'type': "bootstrap", 'class': "ezoeBootstrap"}, ed.selection.getContent()));
-	                		
-                		});
-	                	
-	                	ed.addButton('bootstrap', {
-	                	    title : 'bootstrap',
-	                	    cmd : 'mceBootstrap',
-	                	    image : '/extension/owbootstrap/design/admin2/javascript/plugins/bootstrap/img/bootstrap.gif'
-	                	});
-	                	
-	                	ed.onPreProcess.add(function(ed, o) {
-	                	    tinymce.each(ed.dom.select('div.mceBootstrap', o.node), function(n) {
-	                	        ed.dom.replace(ed.dom.create('bootstrap', null, n.innerHTML), n);
-	                	    });
-	                	});
-	                	
-	                	ed.onSetContent.add(function(ed, o) {
-	                	    tinymce.each(ed.getDoc().getElementsByTagName("bootstrap"), function(n) {
-	                	        ed.dom.replace(ed.dom.create('div', {title: 'bootstrap', 'type': "bootstrap", 'class': "ezoeBootstrap"}, n.innerHTML), n);
-	                	    });
-	                	});
-
-                },*/
+                
         	init : function(ed, url) {
-        		//this.editor = ed;
-	                // Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceBootstrap');
 
-	                // Register commands
-	                /*ed.addCommand('mceBootstrap', function() {
-	                    //ed.execCommand('mceCustom', false, 'bootstrap');
-	                    ed.execCommand('generalXmlTagPopup', '_generic/popup/', 'bootstrap', 0, 0, false);
+        			/***********************************************************************
+        			* Récupère le noeud parent selon le tag "tag", la classe "className"
+        			* et le type "type"
+        			***********************************************************************/
+        			var getParentByTag = function( n, tag, className, type, checkElement ) {
+			            if ( className ) className = ' ' + className + ' ';
+			            tag = ',' + tag.toUpperCase() + ',';
+			            while ( n && n.nodeName !== undefined && n.nodeName !== 'BODY' )
+			            {
+			                if ( checkElement && tag.indexOf( ',' + n.nodeName + ',' ) !== -1
+			                && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 )
+			                && ( !type || n.getAttribute('type') === type ) )
+			                {
+			                    return n;
+			                }
+			                n = n.parentNode;
+			                checkElement = true;
+			            }
+			            return false;
+			        }
 
-	                });*/
-
+			        /***********************************************************************
+        			* Action Bootstrap au clic sur le bouton
+        			***********************************************************************/
 	        		ed.addCommand('mceBootstrap', function(ui, bsid) {
-	        			//console.dir(ed.selection.getNode());
-	        			function getRootParent(n) {
-		        			while ( n && n.nodeName !== undefined && n.nodeName !== 'BODY' )
-		                    {
-		                        if ( n.getAttribute('data-bsgroup') === 'root' )
-		                        {
-		                            return n;
-		                        }
-		                        n = n.parentNode;
-		                    }
-		        			return n;
-	        			}
-	        			//console.dir(ed.selection.getNode());
-	        			var root = getRootParent(ed.selection.getNode());
+
+	        			// On récupère la racine bootstrap
+	        			var root = getParentByTag( ed.selection.getNode(), 'DIV', 'rteBootstrap', false, true );
 	        			
+	        			// Sélection de tout le bloc bootstrap + récupération des paramètres (grid fixe/fluide)
 	        			if (root.getAttribute('data-bsgroup') === 'root') {
 	        				tinyMCE.activeEditor.selection.select(root);
 	        				var root_bs_id = root.getAttribute('data-bsid');
@@ -95,49 +62,201 @@
 	        				var root_bs_id = 'gridfluid';
 	        			}
 	        			
+	        			// Ouverture de la popin en conservant les paramètres (grid fixe/fluide)
 	        			ed.windowManager.open({
                             file : url + '/bootstrap_dialog.htm',
                             width : 780 + parseInt(ed.getLang('bootstrap.delta_width', 0)),
                             height : 430 + parseInt(ed.getLang('bootstrap.delta_height', 0)),
                             inline : 1
 	                    }, {
-	                            plugin_url : url, // Plugin absolute URL
-	                            root_bsid: root_bs_id
-	                            //some_custom_arg : 'custom arg' // Custom argument
-	                            
+	                        plugin_url : url, // Plugin absolute URL
+	                        root_bsid: root_bs_id
+	                        //some_custom_arg : 'custom arg' // Custom argument
 	                    });
+
 		            });
-	                            
-	                // Register buttons
-	                // ed.addButton('bootstrap', {title : 'bootstrap', cmd : 'mceBootstrap', image : url + '/img/bootstrap.gif'});
-	                
+
 	                // Register bootstrap button
 	                ed.addButton('bootstrap', {
 	                        title : 'bootstrap',
 	                        cmd : 'mceBootstrap',
 	                        image : '/extension/owbootstrap/design/owbootstrap/javascript/plugins/bootstrap/img/bootstrap.gif'
 	                });
-	                /*ed.onNodeChange.add(function(ed, cm, n) {
-	                    cm.setActive('bootstrap', n.nodeName === 'SPAN');
-	                });*/
+
 	                
+	                /***********************************************************************
+        			* Autorisation / Interdiction selon l'appui sur les touches clavier
+        			* 	- Empêcher la suppression d'un bloc
+        			***********************************************************************/
+	                var bootstrapControl = function(ed, e) { 
+
+	                	// Récupération de l'entrée clavier
+	                	e = e || window.event;
+	                	var Event = tinymce.dom.Event
+	                	var DOM = tinymce.DOM;
+            			var k = e.which || e.keyCode;
+
+            			// Don't block arrow keys, page up/down, and F1-F12
+			            if ((k > 32 && k < 41) || (k > 111 && k < 124))
+			                return true;
+
+            			var node = ed.selection.getNode();
+            			
+            			// Vérifie si le noeud sélectionné est de type bootstrap (<div type="bootstrap">)
+            			var isBootstrap = false;
+            			if ( node !== undefined && node.nodeName === 'DIV' && DOM.getAttrib(node, 'type') === 'bootstrap') {
+            				isBootstrap = true;
+            			}
+
+            			// Vérifie si le noeud sélectionné est un container bootstrap (root ou grid)
+            			var isContainer = false;
+            			if ( node !== undefined && node.nodeName === 'DIV' && 
+            					new RegExp("^(root|.*container.*)$","g").test(DOM.getAttrib(node, 'data-bsgroup')) ) {
+            				isContainer = true;
+            			}
+            			
+            			// Vérifie si le noeud sélectionné est inclus dans un container bootstrap
+			            var isInBootstrap = false;
+			            var container = getParentByTag( node, 'DIV', false, 'bootstrap', true );
+			    		if ( container !== undefined && container.nodeName === 'DIV' && DOM.getAttrib(container, 'type') === 'bootstrap') {
+			    			isInBootstrap = true;
+			    		}
+
+			    		// Récupère la racine bootstrap
+			            var root = getParentByTag( node, 'DIV', 'rteBootstrap', false, true );
+
+			            // Si le noeud est concerné par bootstrap
+			    		if ( isBootstrap || isInBootstrap ) {
+				    		if ( k === 8 || k === 46 ) { // User clicks del or backspace
+
+				    			if (isContainer) {
+				    				if( !confirm("Remove bootstrap block ?") ) {
+				    					return Event.cancel(e);
+				    				} else {
+				    					return true;
+				    				}
+				    			}
+				    			// On annule la suppression dans le cas d'un div bootstrap dans un container
+				            	if (isBootstrap && !isContainer) {
+					    			return Event.cancel(e);
+					    		}
+
+					    		// On annule la suppression si elle risque de supprimer le container
+				            	if ( isInBootstrap && !isContainer ) {
+				            		innerHTML = container.innerHTML.replace(/(<([^>]+)>)/ig,"");
+				                	if ( innerHTML.length < 1 ) {
+				                		return Event.cancel(e);
+				                	} else {
+				                		var r = ed.selection.getRng();
+				                    	var sc = r.startContainer;
+				                    	if (k === 8 && r.startOffset == sc.childNodes.length || k === 46 && r.startOffset == ed.selection.getNode().innerHTML.replace(/(<([^>]+)>)/ig,"").length) {
+				                    		if(r.collapsed) {
+				                    			return Event.cancel(e);
+				                    		} else {
+				                    			return false;
+				                    		}
+				                    	}
+				                		return true;
+				                	}
+				                }
+				            } else if ( k === 13 ) {
+
+				            	// user clicks enter, create paragraph after bootstrap container
+				            	if (isBootstrap) {
+				            		var newNode;
+				                    newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
+				                    newNode = ed.dom.insertAfter( newNode, root );
+				                    ed.nodeChanged();
+				                    ed.selection.select( newNode, true );
+				                }
+				            }
+
+				            // On empêche d'écrire directement dans un container
+				    		if (isBootstrap && !isContainer) {
+				    			return Event.cancel(e);
+				    		}
+			    		}
+            			
+	                }
+
+	                /***********************************************************************
+        			* Déclenchement de bootstrapControl() à l'appui d'un touche
+        			***********************************************************************/
+	                /*ed.onKeyDown.addToTop( BIND( t.__block, t ) );
+	                ed.onKeyPress.addToTop( BIND( t.__block, t ) );
+	                ed.onKeyUp.addToTop( BIND( t.__block, t ) );
+	                ed.onPaste.addToTop( BIND( t.__block, t ) );*/
+	                ed.onKeyDown.add(function(ed, e) {
+				        bootstrapControl(ed, e);
+				    });
+
+
+	                /***********************************************************************
+        			* Lorsque le curseur se déplace
+        			***********************************************************************/
 	                ed.onNodeChange.add(function(ed, cm, n, co) {
 	                	
-	                	/*tinymce.each(t.stateControls, function(c) {
-	                        cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
-	                    });*/
-	                	cm.setActive('bootstrap', true);
-	                        /*cm.setDisabled('bootstrap', co && n.nodeName != 'DIV');
-	                        cm.setActive('bootstrap', n.nodeName == 'DIV' && !n.name);*/
-	                	//cm.setDisabled('bootstrap', co && n.nodeName != 'DIV' && DOM.getAttrib(p, 'data-bsgroup') === 'root');
-	                });
-	
-	                
-	
-	                // Add a node change handler, selects the button in the UI when a image is selected
-	                /*ed.onNodeChange.add(function(ed, cm, n) {
-	                        cm.setActive('bootstrap', n.nodeName == 'IMG');
-	                });*/
+	                	// Dans le cas d'un container bootstrap
+		                if( ed.dom.getAttrib(n, 'type') === 'bootstrap' ) {
+		                	var Event = tinymce.dom.Event, de = 0;
+
+		                	// On désactive tous les boutons de la barre d'outils
+		                	tinymce.each(ed.controlManager.controls, function(c) {
+				                c.setDisabled( true );
+				            });
+
+				            // On active le bouton bootstrap
+		                	cm.setDisabled('bootstrap', false);
+		                	cm.setActive('bootstrap', true);
+		                	
+		                	var root = getParentByTag( n, 'DIV', 'rteBootstrap', false, true );
+
+		                	// Création du fil d'ariane dans la barre du bas
+	                        pi = tinymce.DOM.create('a', {'href' : "javascript:;", role: 'button', onmousedown : "return false;", title : 'class: rteBootstrap', 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, 'bootstrap');
+	                        Event.add( pi, 'click', function(e){
+	                            ed.execCommand( 'mceBootstrap', true, tinymce.DOM.getAttrib(root, 'data-bsid') );
+	                        });
+		                    p = tinymce.DOM.get(ed.id + '_path') || tinymce.DOM.add(ed.id + '_path_row', 'span', {id : ed.id + '_path'});
+		                    while (p.firstChild) {
+							  p.removeChild(p.firstChild);
+							}
+							p.appendChild(pi);
+
+							// Sélection de tout le bloc bootstrap
+		        			if (root.getAttribute('data-bsgroup') === 'root') {
+		        				tinymce.activeEditor.selection.select(root);
+		        			}
+
+							// On supprime l'appel à la méthode onNodeChange par défaut
+		                    return false;
+
+		                } else {
+		                	// Si nous sommes à l'intérieur un container bootstrap
+		                	var container = getParentByTag( n, 'DIV', false, 'bootstrap', true );
+				    		if ( container !== undefined && container.nodeName === 'DIV' && tinymce.DOM.getAttrib(container, 'type') === 'bootstrap') {
+				    			
+								// On active le bouton bootstrap
+				    			cm.setActive('bootstrap', true);
+
+				    			// Si le container est vide, on crée un paragraphe à l'intérieur
+				    			if (container.innerHTML == '<br>' || container.innerHTML.length < 1 ) {
+				    				var newNode;
+				                    newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
+
+				                    while (container.firstChild) {
+									  container.removeChild(container.firstChild);
+									}
+									container.appendChild(newNode);
+				                    ed.selection.select( container.firstChild, true );
+				                    ed.nodeChanged();
+				    			}
+				    		} else {
+				    			// Sinon on désactive la surbrillance du bouton bootstrap
+				    			cm.setActive('bootstrap', false);
+				    		}
+		                }
+		            });
+
 	        },
 
                 /**
