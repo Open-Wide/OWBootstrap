@@ -55,7 +55,7 @@
 	        			var root = getParentByTag( ed.selection.getNode(), 'DIV', 'rteBootstrap', false, true );
 	        			
 	        			// Sélection de tout le bloc bootstrap + récupération des paramètres (grid fixe/fluide)
-	        			if (root.getAttribute('data-bsgroup') === 'root') {
+	        			if (root && root.nodeName !== undefined && root.getAttribute('data-bsgroup') === 'root') {
 	        				tinyMCE.activeEditor.selection.select(root);
 	        				var root_bs_id = root.getAttribute('data-bsid');
 	        			} else {
@@ -129,6 +129,11 @@
 			    		if ( isBootstrap || isInBootstrap ) {
 				    		if ( k === 8 || k === 46 ) { // User clicks del or backspace
 
+				    			// Correction d'un bug WebKit
+				    			if (tinymce.isWebKit && node.nodeName == 'SPAN') {
+				    				node = node.parentNode;
+				    			}
+
 				    			if (isContainer) {
 				    				if( !confirm("Remove bootstrap block ?") ) {
 				    					return Event.cancel(e);
@@ -143,21 +148,14 @@
 
 					    		// On annule la suppression si elle risque de supprimer le container
 				            	if ( isInBootstrap && !isContainer ) {
-				            		innerHTML = container.innerHTML.replace(/(<([^>]+)>)/ig,"");
-				                	if ( innerHTML.length < 1 ) {
-				                		return Event.cancel(e);
-				                	} else {
-				                		var r = ed.selection.getRng();
-				                    	var sc = r.startContainer;
-				                    	if (k === 8 && r.startOffset == sc.childNodes.length || k === 46 && r.startOffset == ed.selection.getNode().innerHTML.replace(/(<([^>]+)>)/ig,"").length) {
-				                    		if(r.collapsed) {
-				                    			return Event.cancel(e);
-				                    		} else {
-				                    			return false;
-				                    		}
-				                    	}
-				                		return true;
-				                	}
+
+				            		if (container.firstChild == node) {
+				            			var range = ed.selection.getRng();
+				            			if (range.startOffset == 0) {
+				            				return Event.cancel(e);
+				            			}
+				            		}
+				            		return true;
 				                }
 				            } else if ( k === 13 ) {
 
@@ -187,7 +185,7 @@
 	                ed.onKeyUp.addToTop( BIND( t.__block, t ) );
 	                ed.onPaste.addToTop( BIND( t.__block, t ) );*/
 	                ed.onKeyDown.add(function(ed, e) {
-				        bootstrapControl(ed, e);
+				        return bootstrapControl(ed, e);
 				    });
 
 

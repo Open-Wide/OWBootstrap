@@ -36,43 +36,18 @@ var bootstrapItems = {
 		}
 	},
 	grid: {
-		
-		span1: {
-			democontent: "<h4>1</h4><p>S a e t</p>"
-		},
-		span2: {
-			democontent: "<h4>2</h4><p>Lorem ipsum dolor sit amet.</p>"
-		},
-		span3: {
-			democontent: "<h4>3</h4><p>Lorem ipsum dolor sit amet, consectetur adipis.</p>"
-		},
-		span4: {
-			democontent: "<h4>4</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus.</p>"
-		},
-		span5: {
-			democontent: "<h4>5</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus.</p>"
-		},
-		span6: {
-			democontent: "<h4>6</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus. Duis dui libero, dignissim pharetra.</p>"
-		},
-		span7: {
-			democontent: "<h4>7</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus. Duis dui libero, dignissim pharetra placerat a, consequat.</p>"
-		},
-		span8: {
-			democontent: "<h4>8</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus. Duis dui libero, dignissim pharetra placerat a, consequat et eros. Proin sodales.</p>"
-		},
-		span9: {
-			democontent: "<h4>9</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus. Duis dui libero, dignissim pharetra placerat a, consequat et eros. Proin sodales placerat condimentum.</p>"
-		},
-		span10: {
-			democontent: "<h4>10</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus. Duis dui libero, dignissim pharetra placerat a, consequat et eros. Proin sodales placerat condimentum. Morbi ut felis vitae quam faucibus viverra.</p>"
-		},
-		span11: {
-			democontent: "<h4>11</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus. Duis dui libero, dignissim pharetra placerat a, consequat et eros. Proin sodales placerat condimentum. Morbi ut felis vitae quam faucibus viverra. In elit lectus, rutrum vitae suscipit nec.</p>"
-		},
-		span12: {
-			democontent: "<h4>11</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis luctus lorem sit amet dapibus. Duis dui libero, dignissim pharetra placerat a, consequat et eros. Proin sodales placerat condimentum. Morbi ut felis vitae quam faucibus viverra.</p>"
-		}
+		span1: {},
+		span2: {},
+		span3: {},
+		span4: {},
+		span5: {},
+		span6: {},
+		span7: {},
+		span8: {},
+		span9: {},
+		span10: {},
+		span11: {},
+		span12: {}
 	}
 }
 
@@ -96,7 +71,7 @@ function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function insertBootstrapItem( bsgroup, bsid, content=false ) {
+function insertBootstrapItem( bsgroup, bsid, content ) {
 
 	var item = bootstrapItems[bsgroup][bsid];
 	var container = $('#'+bsgroup);
@@ -122,7 +97,7 @@ function insertBootstrapItem( bsgroup, bsid, content=false ) {
 
 // Init edit box, preserving 'subgroup' elements if existing
 function initRoot ( bsid ) {
-	//console.log('init');
+
 	var root = $('#rteBootstrap');
 	root.attr('data-bsid', bsid);
 	root.attr('data-bsgroup', 'root');
@@ -152,37 +127,6 @@ function initRoot ( bsid ) {
 	}
 	
 }
-
-/*
-function initRoot ( bsid ) {
-	//console.log('init');
-	var root = $('#rteBootstrap');
-	root.attr('data-bsid', bsid);
-	root.attr('data-bsgroup', 'root');
-	
-	if ( bootstrapItems['root'][bsid].subitems ) {
-		console.log(bootstrapItems['root'][bsid].subitems);
-		$('body').append(
-				$('<div id="tmp"></div>').append( $('#rteBootstrap [data-bsgroup="'+bootstrapItems['root'][bsid].subitems+'"]') )
-		);
-	}
-
-	if( bootstrapItems['root'][bsid].subgroup && bootstrapItems['root'][bsid].subid ) {
-		root.html('');
-		insertBootstrapItem( bootstrapItems['root'][bsid].subgroup, bootstrapItems['root'][bsid].subid, false, root );
-	}
-	
-	if( bootstrapItems['root'][bsid].subitems ) {
-		$('#'+bootstrapItems['root'][bsid].subitems).html($('#tmp').html());
-		$('#tmp').remove();
-	}
-	
-	if( bootstrapItems['root'][bsid].init ) {
-		bootstrapItems['root'][bsid].init();
-	}
-	
-}
-*/
 
 function initGridInterface (){
 
