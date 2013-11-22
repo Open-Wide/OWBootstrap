@@ -1,5 +1,6 @@
 
-.rteBootstrap {
+.rteBootstrap,
+[data-bsgroup="root"] {
 	border: 1px dashed #888888;
     margin: 10px;
     padding: 2px 10px;

@@ -45,6 +45,18 @@
 			            }
 			            return false;
 			        }
+			        var getParentByAttribute = function( n, attribute, value) {
+
+			            while ( n && n.nodeName !== undefined && n.nodeName !== 'BODY' )
+			            {
+			                if ( n.getAttribute(attribute) === value )
+			                {
+			                    return n;
+			                }
+			                n = n.parentNode;
+			            }
+			            return false;
+			        }
 
 			        /***********************************************************************
         			* Action Bootstrap au clic sur le bouton
@@ -52,10 +64,10 @@
 	        		ed.addCommand('mceBootstrap', function(ui, bsid) {
 
 	        			// On récupère la racine bootstrap
-	        			var root = getParentByTag( ed.selection.getNode(), 'DIV', 'rteBootstrap', false, true );
+	        			var root = getParentByAttribute( ed.selection.getNode(), 'data-bsgroup', 'root');
 	        			
 	        			// Sélection de tout le bloc bootstrap + récupération des paramètres (grid fixe/fluide)
-	        			if (root && root.nodeName !== undefined && root.getAttribute('data-bsgroup') === 'root') {
+	        			if (root && root.nodeName !== undefined) {
 	        				tinyMCE.activeEditor.selection.select(root);
 	        				var root_bsid = root.getAttribute('data-bsid');
 	        				var root_bsclass = root.getAttribute('data-bsclass');
@@ -126,7 +138,7 @@
 			    		}
 
 			    		// Récupère la racine bootstrap
-			            var root = getParentByTag( node, 'DIV', 'rteBootstrap', false, true );
+			            var root = getParentByAttribute( ed.selection.getNode(), 'data-bsgroup', 'root');
 
 			            // Si le noeud est concerné par bootstrap
 			    		if ( isBootstrap || isInBootstrap ) {
@@ -210,7 +222,7 @@
 		                	cm.setDisabled('bootstrap', false);
 		                	cm.setActive('bootstrap', true);
 		                	
-		                	var root = getParentByTag( n, 'DIV', 'rteBootstrap', false, true );
+		                	var root = getParentByAttribute( ed.selection.getNode(), 'data-bsgroup', 'root');
 
 		                	// Création du fil d'ariane dans la barre du bas
 	                        pi = tinymce.DOM.create('a', {'href' : "javascript:;", role: 'button', onmousedown : "return false;", title : 'class: rteBootstrap', 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, 'bootstrap');
@@ -224,9 +236,7 @@
 							p.appendChild(pi);
 
 							// Sélection de tout le bloc bootstrap
-		        			if (root.getAttribute('data-bsgroup') === 'root') {
-		        				tinymce.activeEditor.selection.select(root);
-		        			}
+		        			tinymce.activeEditor.selection.select(root);
 
 							// On supprime l'appel à la méthode onNodeChange par défaut
 		                    return false;
