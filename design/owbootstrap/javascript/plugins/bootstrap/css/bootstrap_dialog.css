@@ -1,8 +1,12 @@
 body {
 	font-size: 0.8em;
 }
-
-[class*="span"] {
+.btn-group select {
+	font-size: 12px;
+    height: 27px;
+    margin: 0;
+}
+#rteBootstrap [class*="span"] {
 	outline: 1px dashed #000;
 	text-align: center;
 	margin-bottom: 10px;

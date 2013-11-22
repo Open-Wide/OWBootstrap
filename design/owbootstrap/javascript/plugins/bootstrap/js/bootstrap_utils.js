@@ -1,12 +1,20 @@
 $(window).bind("load", function() {
-	
+
+	$.ajax({
+			url: "/ezjscore/call/ezJsOWBootstrap::createRteGridOptions"
+		}).done(function( data ) {
+			$('#grid-options').html($("<div/>").html(data).text());
+		});
+
 	if(tinyMCEPopup && tinyMCEPopup.getWindowArg('root_bsid')) {
 		var root_bsid = tinyMCEPopup.getWindowArg('root_bsid');
+		var root_bs_class = tinyMCEPopup.getWindowArg('root_bsclass');
 	} else {
 		var root_bsid = 'gridfluid';
+		var root_bs_class = '';
 	}
 	 // Init edit box
-	 initRoot( root_bsid );
+	 initRoot( root_bsid, root_bs_class );
 	 
 	 // Import existing elements
 	 if(tinyMCE) {
@@ -96,10 +104,11 @@ function insertBootstrapItem( bsgroup, bsid, content ) {
 }
 
 // Init edit box, preserving 'subgroup' elements if existing
-function initRoot ( bsid ) {
+function initRoot ( bsid, bsclass ) {
 
 	var root = $('#rteBootstrap');
 	root.attr('data-bsid', bsid);
+	root.attr('data-bsclass', bsclass);
 	root.attr('data-bsgroup', 'root');
 	
 	$('[data-rootbsid]').removeClass('active');

@@ -57,9 +57,11 @@
 	        			// Sélection de tout le bloc bootstrap + récupération des paramètres (grid fixe/fluide)
 	        			if (root && root.nodeName !== undefined && root.getAttribute('data-bsgroup') === 'root') {
 	        				tinyMCE.activeEditor.selection.select(root);
-	        				var root_bs_id = root.getAttribute('data-bsid');
+	        				var root_bsid = root.getAttribute('data-bsid');
+	        				var root_bsclass = root.getAttribute('data-bsclass');
 	        			} else {
-	        				var root_bs_id = 'gridfluid';
+	        				var root_bsid = 'gridfluid';
+	        				var root_bsclass = '';
 	        			}
 	        			
 	        			// Ouverture de la popin en conservant les paramètres (grid fixe/fluide)
@@ -70,7 +72,8 @@
                             inline : 1
 	                    }, {
 	                        plugin_url : url, // Plugin absolute URL
-	                        root_bsid: root_bs_id
+	                        root_bsid: root_bsid,
+	                        root_bsclass: root_bsclass
 	                        //some_custom_arg : 'custom arg' // Custom argument
 	                    });
 

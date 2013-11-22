@@ -136,7 +136,7 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => false,
                               'isInline' => null,
-    						  'attributes' => array( 'data-bsid', 'data-bsgroup' )
+    						  'attributes' => array( 'data-bsid', 'data-bsgroup', 'data-bsclass' )
     							
     			),
 

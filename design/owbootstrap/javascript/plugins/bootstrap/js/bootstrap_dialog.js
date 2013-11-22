@@ -26,7 +26,7 @@ var BootstrapDialog = {
                 });
 
                 
-            var output = '<div type="bootstrap" class="rteBootstrap" data-bsgroup="' + $('#rteBootstrap').data('bsgroup') + '" data-bsid="' + $('#rteBootstrap').data('bsid') + '">' + $('#rteBootstrap').html() + '</div>';
+            var output = '<div type="bootstrap" class="rteBootstrap" data-bsgroup="' + $('#rteBootstrap').data('bsgroup') + '" data-bsid="' + $('#rteBootstrap').data('bsid') + '" data-bsclass="' + $('#rteBootstrap').data('bsclass') + '">' + $('#rteBootstrap').html() + '</div>';
 
             tinyMCE.activeEditor.selection.getNode().remove();
             tinyMCEPopup.editor.execCommand('mceInsertContent', false, output);

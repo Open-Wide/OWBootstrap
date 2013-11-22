@@ -163,7 +163,7 @@ class OWBootstrapeZOEXMLInput extends eZOEXMLInput
     function &inputSectionXML( &$section, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = '';
-        eZDebug::writeError('OWBOOTSTRAP BEGIN PARSING');
+        //eZDebug::writeError('OWBOOTSTRAP BEGIN PARSING');
         foreach ( $section->childNodes as $sectionNode )
         {
             if ( $tdSectionLevel == null )
@@ -277,11 +277,12 @@ class OWBootstrapeZOEXMLInput extends eZOEXMLInput
 
                 		$tagContent = $this->inputSectionXML( $sectionNode, $currentSectionLevel, $sectionLevel );
 
-                		$className = OWBootstrapRte::getClass( $sectionNode->getAttribute( 'data-bsgroup' ), $sectionNode->getAttribute( 'data-bsid' ) );
+                		$className = OWBootstrapRte::getClass( $sectionNode->getAttribute( 'data-bsgroup' ), $sectionNode->getAttribute( 'data-bsid' ), $sectionNode->getAttribute( 'data-bsclass' ) );
                 		
                 		$output .= '<div class="'.$className.'" '.
 		                				'type="bootstrap" '.
 		                				'data-bsid="' . 	$sectionNode->getAttribute( 'data-bsid' ) . '" '.
+                                        'data-bsclass="' . $sectionNode->getAttribute( 'data-bsclass' ) . '" '.
 		                				'data-bsgroup="' . 	$sectionNode->getAttribute( 'data-bsgroup' ) . '" >' . 
 		                					$tagContent . 
                 					'</div>';

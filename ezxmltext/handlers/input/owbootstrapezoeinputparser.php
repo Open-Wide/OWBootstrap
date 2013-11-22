@@ -149,9 +149,6 @@ class OWBootstrapeZOEInputParser extends eZOEInputParser
         	unset( $attributes['type'] );// unset internal stuff to make sure custom attr with same name works
         	if ( $tagName === 'div' )
         		$attributes['children_required'] = 'true';
-        	$attributes['data-bsid'] = $attributes['data-bsid'];
-        	$attributes['data-bsgroup'] = $attributes['data-bsgroup'];
-        	//$attributes['data-bsclass'] = $attributes['data-bsclass'];
         	unset( $attributes['class'] );
         	$attributes['name'] = $name;
         }

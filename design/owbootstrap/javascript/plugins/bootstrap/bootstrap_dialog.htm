@@ -23,7 +23,6 @@
 </head>
 <body>
 
-
 <form onsubmit="BootstrapDialog.insert();return false;" action="#">
 
 	<!-- div class="tabs" role="presentation">
@@ -32,7 +31,6 @@
 			<li id="popup_tab" aria-controls="popup_panel" ><span><a>{#advlink_dlg.popup_tab}</a></span></li>
 		</ul>
 	</div -->
-	
 	
 	<div class="panel_wrapper">
 		<div id="general_panel" class="panel current">
@@ -69,6 +67,9 @@
 							    <button type="button" class="btn btn-mini" onclick="initRoot( 'gridfluid' );" data-placement="top" data-toggle="tooltip" data-original-title="S'adapte au contenu<br>(conseillé)" data-rootbsid="gridfluid">Fluide</button>
 							    <button type="button" class="btn btn-mini" onclick="initRoot( 'grid' );" data-placement="top" data-toggle="tooltip" data-original-title="Prend toute la largeur<br>de la page" data-rootbsid="grid">Fixe</button>
 						    </div>
+						    <div class="btn-group">
+						    	<div id="grid-options"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -82,7 +83,7 @@
 				</div>
 				
 			</div>
-			
+
 			<!-- Edit area -->
 			<div id="rteBootstrap">
 

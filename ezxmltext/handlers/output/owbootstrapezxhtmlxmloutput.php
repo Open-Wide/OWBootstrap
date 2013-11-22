@@ -136,7 +136,7 @@ class OWBootstrapeZXHTMLXMLOutput extends eZXHTMLXMLOutput
     	{
     		$ret = array( 
     				'tpl_vars' => array( 
-    						'class' => eZOEInputParser::tagClassNamesCleanup( OWBootstrapRte::getClass( $element->getAttribute( 'data-bsgroup' ), $element->getAttribute( 'data-bsid' ) ) )
+    						'class' => eZOEInputParser::tagClassNamesCleanup( OWBootstrapRte::getClass( $element->getAttribute( 'data-bsgroup' ), $element->getAttribute( 'data-bsid' ), $element->getAttribute( 'data-bsclass' ) ) )
     				)
     		);
     	}
