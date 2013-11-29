@@ -105,18 +105,35 @@ body {
 	margin-bottom: 20px;
 }
 
-#grid {
+#rteBootstrap {
+	position: relative;
 	box-shadow: 1px 1px 10px #aaa;
 	background: url('../img/canvas_bg.gif');
 	min-height: 30px;
 }
-#grid [class*="span"] {
+#rteBootstrap [class*="span"] {
+	position: relative;
 	padding-top: 15px;
 	padding-bottom: 15px;
 	background: #fff;
 	overflow: hidden;
 }
 
+.toolbox {
+	position: absolute;
+	width: 50px;
+	height: 20px;
+	top: 0;
+	right: 0;
+}
+.toolbox select {
+	font-size: 11px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+/*
 #grid [class*="span"]:before {
     display: block;
     font-weight: bold;
@@ -157,4 +174,4 @@ body {
 }
 #grid .span12:before {
 	content: "12";
-}
+}*/
