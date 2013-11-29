@@ -1,3 +1,62 @@
+
+var generateDropdown = function( className, min, max, value ) {
+	var dropdown = '<select data-param="'+className+'">';
+	for(var i=min;i<=max;i++) {
+		dropdown = dropdown+'<option value="'+className+i+'"';
+		if (i==value) {
+			dropdown = dropdown+' selected="selected"'
+		}
+		dropdown = dropdown+'>'+i+'</option>'
+	}
+	dropdown = dropdown+'</select>';
+	return dropdown;
+}
+
+var createOptions = function(item) {
+	
+	var bsclass = item.attr('data-bsclass' );
+	if (bsclass && bsclass != 'undefined') {
+		var spanreg = new RegExp("(.*)span([0-9]{1,2})(.*)", "g");
+		if(bsclass.match(spanreg)) {
+			var width = bsclass.replace(spanreg, "$2");
+			var offset = 0;
+			var offsetreg = new RegExp("(.*)offset([0-9]{1,2})(.*)", "g");
+			if(bsclass.match(offsetreg)) {
+				offset = bsclass.replace(offsetreg, "$2")
+			}
+
+			var widthDropdown = generateDropdown('span', 1, 12, width);
+			var offsetDropdown = generateDropdown('offset', 0, 12, offset);
+			var toolbox = $('<div class="toolbox noContent">Largeur : '+widthDropdown+' ; Offset : '+offsetDropdown+'</div>');
+			item.prepend(toolbox);
+			
+			$(toolbox).find('select').each(function() {
+				$(this).change(function() {
+					var param = $(this).attr('data-param');
+					var parent = $(this).closest('.bsItem');
+					var bsclass  = parent.attr('data-bsclass');
+					var classes = parent.attr('class');
+					$(this).find("option:selected").each(function() {
+			        	var new_value = $(this).attr('value');
+			        	var reg = new RegExp("(.*)("+param+"[0-9]{1,2})(.*)", "g");
+						if(bsclass.match(reg)) {
+							parent.attr('data-bsclass', bsclass.replace(reg, "$1"+new_value+"$3"));
+						} else {
+							parent.attr('data-bsclass', bsclass+" "+new_value);
+						}
+						if(classes.match(reg)) {
+							parent.attr('class', classes.replace(reg, "$1"+new_value+"$3"));
+						} else {
+							parent.attr('class', classes+" "+new_value);
+						}
+			        });
+			    });
+			});
+
+		}
+	}
+}
+
 $(window).bind("load", function() {
 
 	$.ajax({
@@ -24,6 +83,7 @@ $(window).bind("load", function() {
 		 });
 	 }
 	 
+
 	 $('[data-toggle="tooltip"]').tooltip({html: true});
 	
 });
@@ -92,7 +152,7 @@ function insertBootstrapItem( bsgroup, bsid, content ) {
 		} else {
 			var bsclass = bsid;
 		}
-		$( "<div></div>" )
+		var itemEntity = $( "<div></div>" )
 			.attr('data-bsid', bsid )
 			.attr('data-bsgroup', bsgroup )
 			.attr('data-bsclass', bsclass )
@@ -100,6 +160,8 @@ function insertBootstrapItem( bsgroup, bsid, content ) {
 			.addClass( 'bsItem' )
 			.html(  content )
 			.appendTo( container );
+
+		createOptions(itemEntity);
 	}
 }
 
@@ -134,6 +196,10 @@ function initRoot ( bsid, bsclass ) {
 	if( bootstrapItems['root'][bsid].init ) {
 		bootstrapItems['root'][bsid].init();
 	}
+
+	/*$('#rteBootstrap [data-bsclass*="span"]').each(function(){
+	 	createOptions($(this));
+	 });*/
 	
 }
 
@@ -158,7 +224,7 @@ function initGridInterface (){
 			 insertBootstrapItem ( 'grid', ui.draggable.data('bsid') );
 		 }
 	 }).sortable({
-			 items: "div:not(.placeholder)",
+			 items: "div[class*=bsItem]",
 			 placeholder: "highlight",
 			 cursor: "move",
 			 sort: function() {

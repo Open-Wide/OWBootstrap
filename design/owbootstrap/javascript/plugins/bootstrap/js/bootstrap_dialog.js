@@ -14,7 +14,7 @@ var BootstrapDialog = {
         insert : function() {
             // Insert the contents from the input into the document
             //tinyMCEPopup.editor.execCommand('mceInsertContent', false, document.forms[0].someval.value);
-            
+            $('#rteBootstrap').find('.noContent').remove();
             // Suppression des classes inutiles
             // Ajout des classes bootstrap
             $('#rteBootstrap')
