@@ -18,4 +18,14 @@ CustomAttributesDefaults[class]=default
 CustomAttributesDefaults[size]=default
 CustomAttributesDefaults[block]=default
 
+[paragraph]
+AvailableClasses[]=lead
+AvailableClasses[]=muted
+AvailableClasses[]=text-warning
+AvailableClasses[]=text-error
+AvailableClasses[]=text-info
+AvailableClasses[]=text-success
+
+
+
 */ ?>
