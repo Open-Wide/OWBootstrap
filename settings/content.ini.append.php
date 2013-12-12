@@ -26,6 +26,16 @@ AvailableClasses[]=text-error
 AvailableClasses[]=text-info
 AvailableClasses[]=text-success
 
+[table]
+AvailableClasses[]=table-striped
+AvailableClasses[]=table-bordered
+AvailableClasses[]=table-hover
+AvailableClasses[]=table-condensed
 
+[tr]
+AvailableClasses[]=success
+AvailableClasses[]=error
+AvailableClasses[]=warning
+AvailableClasses[]=info
 
 */ ?>
