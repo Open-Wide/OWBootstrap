@@ -19,12 +19,14 @@ $(window).bind("load", function() {
 		}
 
 	}
-	//initGridInterface();
+	initGridInterface();
 
 	$.ajax({
 		url: "/ezjscore/call/ezJsOWBootstrap::createRteGridOptions"
 	}).done(function( data ) {
-		$('#rteBootstrap').prepend($("<div/>").html(data).text());
+		root.prepend($("<div/>").html(data).text());
+		createToolbox(root);
+		addCloseButton(root.find('.toolbox').first());
 	});
 
 	root.find('div[class*=span]').each(function(){
@@ -123,9 +125,10 @@ var createOptions = function( item ) {
 
 			var widthDropdown = generateDropdown('span', 1, 12, width);
 			var offsetDropdown = generateDropdown('offset', 0, 12, offset);
-			var toolbox = $('<div class="toolbox noContent">' + widthDropdown + '<br>' + offsetDropdown + '</div>');
+			var toolbox = $('<div class="toolbox noContent"><h4>Options</h4><p>Largeur : ' + widthDropdown + '<br>Décalage : ' + offsetDropdown + '</p></div>');
 
 			item.prepend(toolbox);
+			addCloseButton(toolbox);
 			
 			$(toolbox).find('select').each(function() {
 				$(this).change(function() {
@@ -147,43 +150,31 @@ var createOptions = function( item ) {
 		}
 	}
 }
-
+/****************************************
+* Crée la boîte à outils
+****************************************/
 var createToolbox = function(item) {
-	var toolbox = $('<div class="toolbox noContent">Tools</div>');
+	var toolbox = $('<div class="toolbox-display noContent"><i class="icon-cog"></i></div>');
 	
 	item.prepend(toolbox);
 	toolbox.click(function(){
 		
+		displayToolbox(item);
+	});
+}
+
+var displayToolbox = function(item) {
+	var toolbox = item.find('.toolbox').first();
+	if (toolbox.length > 0) {
+		toolbox.toggle();
+	} else {
 		createOptions(item);
+	}
+}
+
+var addCloseButton = function(item) {
+	item.prepend('<i class="icon-remove toolbox-display"></i>');
+	item.find('.icon-remove').click(function(){
+		item.toggle();
 	});
 }
-/*
-var displayToolbox = function() {
-	$('[data-toggle="popover"]').popover({
-			placement: function (tip, element) {
-		        var offset = $(element).offset();
-		        height = (window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight||0)-$(tip).height(),
-		        width = (window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth||0)-$(tip).width(),
-		        vert = 0.5 * height - offset.top;
-		        vertPlacement = vert > 0 ? 'bottom' : 'top';
-		        horiz = 0.5 * width - offset.left;
-		        horizPlacement = horiz > 0 ? 'right' : 'left';
-		        placement = Math.abs(horiz) > Math.abs(vert) ?  horizPlacement : vertPlacement;
-		        return placement;
-			},
-			trigger: 'manual',
-			cursor: 'pointer',
-			content: function (){ return $(this).find('.collapse').html() },
-			delay: { show: 0, hide: 500 },
-			html: true
-	}).click(function(e){ 
-		e.preventDefault();
-		if ($(this).parent().find('.popover').length) {
-			$('.popover').remove();
-		} else {
-			$('.popover').remove();
-			$(this).popover('show');
-		}
-	});
-}
-*/

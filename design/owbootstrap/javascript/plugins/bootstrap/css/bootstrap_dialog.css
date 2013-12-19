@@ -7,7 +7,7 @@ body {
     margin: 0;
 }
 #rteBootstrap [class*="span"] {
-	outline: 1px dashed #000;
+	border: 1px dashed #000;
 	text-align: center;
 	margin-bottom: 10px;
 	cursor: move;
@@ -32,21 +32,23 @@ body {
 
 .highlight {
 	background: #f5f5f5 !important;
-	outline: 1px dashed #F55;
+	border: 1px dashed #F55;
 }
 
 .toRemove {
 	background: #fcc !important;
 }
 .toRemove:after {
-	content: "x";
+	content: "À supprimer";
 	color: #f00;
 	font-size: 15px;
 	position: absolute;
-	top: 0;
-	right: 0px;
+	top: 5px;
+	left: 0px;
 	padding: 5px;
 	font-weight: bold;
+	text-align: center;
+	width: 100%;
 }
 
 .container {
@@ -116,15 +118,38 @@ body {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	background: #fff;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 
 .toolbox {
 	position: absolute;
-	width: 50px;
-	height: 20px;
+	top: 25px;
+	right: 0;
+	background: #fff;
+	box-shadow: 1px 1px 5px #555;
+	padding: 10px;
+	cursor: default;
+	text-align: left;
+	display: none;
+	z-index: 10;
+	border-radius: 5px;
+}
+#grid .toolbox {
+	display: block;
+}
+.toolbox h4 {
+	padding: 0 0 10px;
+	margin: 0;
+}
+.toolbox-display {
+	position: absolute;
 	top: 0;
 	right: 0;
+	cursor: pointer;
+	padding: 2px;
+}
+.toolbox .toolbox-display {
+	top: 4px;
 }
 .toolbox select {
 	font-size: 11px;
@@ -132,6 +157,9 @@ body {
     margin: 0;
     padding: 0;
     width: auto;
+}
+.ui-state-default {
+	min-height: 30px;
 }
 /*
 #grid [class*="span"]:before {

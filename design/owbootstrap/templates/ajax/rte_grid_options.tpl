@@ -1,7 +1,8 @@
 {def $additionalClasses = ezini( 'RteClass', 'RteRootAdditionalClasses', 'owbootstrap.ini')}
 	{if $additionalClasses|count}
 		<div class="toolbox noContent">
-			<select id="root-additional-classes" name="root-additional-classes" class="span3">
+			<h4>Style</h4>
+			<select id="root-additional-classes" name="root-additional-classes">
 				{foreach $additionalClasses as $id => $label}
 					<option value="{$id}">{$label|wash}</option> 
 				{/foreach}
