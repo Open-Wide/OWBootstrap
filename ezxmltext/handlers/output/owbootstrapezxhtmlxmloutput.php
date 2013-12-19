@@ -132,14 +132,14 @@ class OWBootstrapeZXHTMLXMLOutput extends eZXHTMLXMLOutput
     function initHandlerBootstrap( $element, &$attributes, &$siblingParams, &$parentParams )
     {
     	$ret = array();
-    	if ( $element->getAttribute( 'data-bsid' ) != null )
-    	{
+    	/*if ( $element->getAttribute( 'data-bsid' ) != null )
+    	{*/
     		$ret = array( 
     				'tpl_vars' => array( 
-    						'class' => eZOEInputParser::tagClassNamesCleanup( OWBootstrapRte::getClass( $element->getAttribute( 'data-bsgroup' ), $element->getAttribute( 'data-bsid' ), $element->getAttribute( 'data-bsclass' ) ) )
+    						'class' => OWBootstrapRte::getClass( $element->getAttribute( 'data-bsclass' ), $element->getAttribute( 'data-bsgroup' ) )
     				)
     		);
-    	}
+    	/*}*/
     
     	return $ret;
     }

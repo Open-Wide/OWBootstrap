@@ -14,19 +14,21 @@ var BootstrapDialog = {
         insert : function() {
             // Insert the contents from the input into the document
             //tinyMCEPopup.editor.execCommand('mceInsertContent', false, document.forms[0].someval.value);
-            
-            // Suppression des classes inutiles
-            // Ajout des classes bootstrap
-            $('#rteBootstrap')
-                .find('.bsItem').each(function(i,elt) {
-                    $(elt)
-                        .removeClass()
-                        .addClass($(elt).data('bsclass'))
-                        .attr('type', 'bootstrap')
-                });
 
-                
-            var output = '<div type="bootstrap" class="' + $('#rteBootstrap').data('bsclass') + '" data-bsgroup="' + $('#rteBootstrap').data('bsgroup') + '" data-bsid="' + $('#rteBootstrap').data('bsid') + '" data-bsclass="' + $('#rteBootstrap').data('bsclass') + '">' + $('#rteBootstrap').html() + '</div>';
+            $('#grid').find('.noContent').remove();
+
+            // Suppression des classes inutiles
+            var classes = $('#grid').attr('class');
+            var reg = new RegExp('([ "\'])ui-[^ "\']*', "g");
+            if ( classes.match(reg) ) {
+                $('#grid').attr('class', classes.replace(reg, "$1"));
+            }
+            $('#grid, #grid div[class*=span]').attr('type', 'bootstrap');
+            $('[type=bootstrap]').each(function(i,elt){
+                $(elt).attr('data-bsclass', $(elt).attr('class'));
+            });
+            
+            var output = '<div type="bootstrap" data-bsgroup="root" class="' + $('#rteBootstrap').attr('class') + '" data-bsclass="' + $('#rteBootstrap').attr('class') + '">' + $('#grid').removeAttr('id')[0].outerHTML + '</div>';
 
             tinyMCE.activeEditor.selection.getNode().remove();
             tinyMCEPopup.editor.execCommand('mceInsertContent', false, output);

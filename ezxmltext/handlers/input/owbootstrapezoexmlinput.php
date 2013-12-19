@@ -277,11 +277,10 @@ class OWBootstrapeZOEXMLInput extends eZOEXMLInput
 
                 		$tagContent = $this->inputSectionXML( $sectionNode, $currentSectionLevel, $sectionLevel );
 
-                		$className = OWBootstrapRte::getClass( $sectionNode->getAttribute( 'data-bsgroup' ), $sectionNode->getAttribute( 'data-bsid' ), $sectionNode->getAttribute( 'data-bsclass' ) );
+                		$className = OWBootstrapRte::getClass( $sectionNode->getAttribute( 'data-bsclass' ), $sectionNode->getAttribute( 'data-bsgroup' ) );
                 		
                 		$output .= '<div class="'.$className.'" '.
 		                				'type="bootstrap" '.
-		                				'data-bsid="' . 	$sectionNode->getAttribute( 'data-bsid' ) . '" '.
                                         'data-bsclass="' . $sectionNode->getAttribute( 'data-bsclass' ) . '" '.
 		                				'data-bsgroup="' . 	$sectionNode->getAttribute( 'data-bsgroup' ) . '" >' . 
 		                					$tagContent . 
