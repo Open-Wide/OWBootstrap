@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<software>
+    <metadata>
+        <name>OWBootstrap</name>
+        <version>1.0</version>
+        <copyright>OpenWide http://www.openwide.fr/</copyright>
+    </metadata>
+    <dependencies>
+        <extends>
+			<extension name="ezoe" />
+			<extension name="owskeletor" />
+        </extends>
+    </dependencies>
+</software>
