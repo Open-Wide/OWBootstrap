@@ -1,4 +1,6 @@
-
+body#tinymce {
+	padding: 10px
+}
 .rteBootstrap,
 [data-bsgroup="root"] {
 	border: 1px dashed #888888;
