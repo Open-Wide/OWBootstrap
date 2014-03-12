@@ -48,7 +48,7 @@ class OWBootStrapOperators
      \Executes the needed operator(s).
      \Checks operator names, and calls the appropriate functions.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace,
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace,
                      &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )
