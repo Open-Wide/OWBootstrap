@@ -14,13 +14,11 @@ EditorCSSFileList[]=bootstrap.css
 EditorCSSFileList[]=tinymce_bootstrap.css
 EditorCSSFileList[]=bootstrap-responsive.css
 
-CSSFileList[]=bootstrap.css
-CSSFileList[]=bootstrap-responsive.css
-CSSFileList[]=owbootstrap.css
+BackendCSSFileList[]=bootstrap.css
+BackendCSSFileList[]=bootstrap-responsive.css
+BackendCSSFileList[]=owbootstrap.css
 
 [JavaScriptSettings]
 JavaScriptList[]=ezjsc::jquery
-FooterJavaScriptList[]=jquery.cycle.all.js
-FooterJavaScriptList[]=bootstrap.js
 
-*/ ?>
+*/
