@@ -1299,7 +1299,8 @@
   Affix.prototype.checkPosition = function () {
     if (!this.$element.is(':visible')) return
 
-    var scrollHeight = $(document).height()
+    var elementHeight = this.$element.outerHeight(true)
+      , scrollHeight = $(document).height()
       , scrollTop = this.$window.scrollTop()
       , position = this.$element.offset()
       , offset = this.options.offset
@@ -1312,10 +1313,9 @@
     if (typeof offsetTop == 'function') offsetTop = offset.top()
     if (typeof offsetBottom == 'function') offsetBottom = offset.bottom()
 
-    affix = this.unpin != null && (scrollTop + this.unpin <= position.top) ?
-      false    : offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ?
-      'bottom' : offsetTop != null && scrollTop <= offsetTop ?
-      'top'    : false
+    affix = this.unpin   != null && (scrollTop + this.unpin <= position.top) ? false :
+    		offsetBottom != null && (position.top + elementHeight >= scrollHeight - offsetBottom) ? 'bottom' :
+    		offsetTop    != null && scrollTop <= offsetTop ? 'top' : false
 
     if (this.affixed === affix) return
 
